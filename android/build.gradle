@@ -41,10 +41,15 @@ repositories {
     }
 }
 
-def googlePlayServicesVersion = rootProject.hasProperty('googlePlayServicesVersion') ? rootProject.googlePlayServicesVersion : DEFAULT_GOOGLE_PLAY_SERVICES_VERSION
+def safeExtGet(prop, fallback) {
+  rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+}
+
+def googlePlayServicesVersion = safeExtGet('googlePlayServicesVersion', DEFAULT_GOOGLE_PLAY_SERVICES_VERSION)
+googlePlayServicesVersion = safeExtGet('playServicesVersion', googlePlayServicesVersion)
+googlePlayServicesVersion = safeExtGet('playServicesLocationVersion', googlePlayServicesVersion)
 
 dependencies {
     implementation "com.google.android.gms:play-services-location:$googlePlayServicesVersion"
     api 'com.facebook.react:react-native:+'
 }
-  
